@@ -1,0 +1,461 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Nov 25 22:41:49 2019
+
+@author: mmand
+"""
+"""
+Loi du gaz parfait
+P V = n R T
+
+où n est le nombre de moles du gaz présentes dans le volume V, 
+relié à la masse m (g) de gaz par n = m / M 
+où M est la masse molaire du gaz en g/mol.
+"""
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+R = 8,31    # [J K-1 mol-1]
+
+# Some example data to display
+x = np.linspace(0, 2 * np.pi, 400)
+y = np.sin(x ** 2)
+figure = plt.figure(figsize = (10, 10)) 
+figure.get_size_inches() 
+
+fig, axs = plt.subplots(2, 2, sharex='col', sharey='row',
+                        gridspec_kw={'hspace': 0, 'wspace': 0})
+(ax1, ax2), (ax3, ax4) = axs
+fig.suptitle('Sharing x per column, y per row')
+ax1.plot(x, y)
+ax2.plot(x, y**2, 'tab:orange')
+ax3.plot(x + 1, -y, 'tab:green')
+ax4.plot(x + 2, -y**2, 'tab:red')
+
+#for ax in axs.flat:
+#    ax.label_outer()
+from matplotlib import pyplot
+
+myfig, (ax1, ax2) = pyplot.subplots(nrows = 2, ncols = 1)    
+pyplot.figure(1)
+pyplot.subplot(1, 2, 1)
+pyplot.scatter(range(5), [x ** 2 for x in range(5)], color = 'blue')
+pyplot.subplot(2, 2, 2)
+pyplot.plot(range(5), color = 'red')
+pyplot.subplot(2, 2, 4)
+pyplot.bar(range(5), range(5), color = 'green')
+
+from tkinter import *
+ 
+def faireApparaitreLeToplevel():
+    top=Toplevel(root)
+    lab=Label(top, text="Ce soir je vais manger des frites")
+    lab.pack()
+ 
+root=Tk()
+go=Button(root, text="lancer", command=faireApparaitreLeToplevel)
+go.pack()
+root.mainloop()
+
+
+from tkinter import *	
+
+def deplaceDisque():
+    global x, y, dx, dy, dessin, jeu
+    x, y = x+dx, y+dy   # Incrémentation des coordonnées
+    if x<xf and y<yf:   # Test d'arrêt : point d'arrivée atteint ?
+        dessin.coords(oval,x,y,x+d,y+d)     # Déplacement du disque
+        jeu.after(50,deplaceDisque)			# Attendre 50 ms et recommencer
+
+# Variables globales - Paramétrage du jeu
+H, L = 250, 250         # Taille canevas
+x, y = 10, 10           # coordonnées initiales du disque
+d = 30					# Diamètre du disque 
+dx, dy = 15, 15         # Pas du déplacement du disque
+xf, yf = 210, 210       # coordonnées finales du disque
+
+jeu = Tk()
+
+dessin = Canvas(jeu,bg='dark grey',height=H, width=L)
+dessin.pack(side=LEFT, padx =5, pady =5)
+
+oval = dessin.create_oval(x, y, x+d, y+d, width=2, fill='red')
+
+boutQ = Button(jeu,text='Quitter', width =8, command=jeu.destroy)
+boutQ.pack(side=BOTTOM,padx =5, pady =5)
+boutD = Button(jeu, text='Démarrer', width =8, command=deplaceDisque)
+boutD.pack(padx =5, pady =5)
+
+jeu.mainloop()
+
+
+
+
+
+
+
+
+
+
+from tkinter import *
+
+def deplacement():
+    global dx, dy
+    if canvas.coords(balle1)[3]>400:
+        dy=-1*dy
+    #On deplace la balle :
+    canvas.move(balle1,dx,dy)
+    #On repete cette fonction
+    tk.after(20,deplacement)
+
+#Coordonnees de la balle:
+Pos_X=60
+Pos_Y=10
+dx=0
+dy=5
+
+#On cree une fenetre et un canvas:
+tk = Tk()
+canvas = Canvas(tk,width = 500, height = 400 , bd=0, bg="white")
+canvas.pack(padx=10,pady=10)
+
+#Creation  d'un bouton "Quitter":
+Bouton_Quitter=Button(tk, text ='Quitter', command = tk.destroy)
+#On ajoute l'affichage du bouton dans la fenêtre tk:
+Bouton_Quitter.pack()
+
+#On cree une balle:
+balle1 = canvas.create_oval(Pos_X,Pos_Y,Pos_X+20,Pos_Y+20,fill='red')
+
+deplacement()
+
+#On lance la boucle principale:
+tk.mainloop()
+
+from tkinter import *
+
+# procédure générale de déplacement :
+def avance(gd, hb):
+    global x1, y1
+    x1, y1 = x1 +gd, y1 +hb
+    can1.coords(oval1, x1, y1, x1+30, y1+30)
+
+# gestionnaires d'événements :
+def depl_gauche():
+    avance(-10, 0)
+
+def depl_droite():
+    avance(10, 0)
+
+def depl_haut():
+    avance(0, -10)
+
+def depl_bas():
+    avance(0, 10)    
+
+#------ Programme principal -------
+
+# les variables suivantes seront utilisées de manière globale :
+x1, y1 = 10, 10		# coordonnées initiales
+
+# Création du widget principal ("maître") :
+fen1 = Tk()
+fen1.title("Exercice d'animation avec Tkinter")
+
+# création des widgets "esclaves" :
+can1 = Canvas(fen1,bg='dark grey',height=300,width=300)
+oval1 = can1.create_oval(x1,y1,x1+30,y1+30,width=2,fill='red')
+can1.pack(side=LEFT)
+Button(fen1,text='Quitter',command=fen1.quit).pack(side=BOTTOM)
+Button(fen1,text='Gauche',command=depl_gauche).pack()
+Button(fen1,text='Droite',command=depl_droite).pack()
+Button(fen1,text='Haut',command=depl_haut).pack()
+Button(fen1,text='Bas',command=depl_bas).pack()
+
+# démarrage du réceptionnaire d'évènements (boucle principale) :
+fen1.mainloop()
+
+# Simulation du phénomène de gravitation universelle
+
+from tkinter import *
+from math import sqrt
+
+def distance(x1, y1, x2, y2):
+    "distance séparant les points x1,y1 et x2,y2"
+    d = sqrt((x2-x1)**2 + (y2-y1)**2)       # théorème de Pythagore
+    return  d
+
+def forceG(m1, m2, di):
+    "force de gravitation s'exerçant entre m1 et m2 pour une distance di"
+    return m1*m2*6.67e-11/di**2             # loi de Newton
+
+def avance(n, gd, hb):
+    "déplacement de l'astre n, de gauche à droite ou de haut en bas"
+    global x, y, step
+    # nouvelles coordonnées :
+    x[n], y[n] = x[n] +gd, y[n] +hb
+    # déplacement du dessin dans le canevas :
+    can.coords(astre[n], x[n]-10, y[n]-10, x[n]+10, y[n]+10)
+    # calcul de la nouvelle interdistance : 
+    di = distance(x[0], y[0], x[1], y[1])
+    # conversion de la distance "écran" en distance "astronomique" :
+    diA = di*1e9            # (1 pixel => 1 million de km) 
+    # calcul de la force de gravitation correspondante :
+    f = forceG(m1, m2, diA)
+    # affichage des nouvelles valeurs de distance et force : 
+    valDis.configure(text="Distance = " +str(diA) +" m")
+    valFor.configure(text="Force = " +str(f) +" N")
+    # adaptation du "pas" de déplacement en fonction de la distance :
+    step = di/10
+
+def gauche1():
+    avance(0, -step, 0)
+
+def droite1():
+    avance(0, step, 0)
+
+def haut1():
+    avance(0, 0, -step)
+
+def bas1():
+    avance(0, 0, step)
+
+def gauche2():
+    avance(1, -step, 0)
+
+def droite2():
+    avance (1, step, 0)
+
+def haut2():
+    avance(1, 0, -step)
+
+def bas2():
+    avance(1, 0, step)
+
+# Masses des deux astres :
+m1 = 6e24          # (valeur de la masse de la terre, en kg)
+m2 = 6e24          # 
+astre = [0]*2      # liste servant à mémoriser les références des dessins
+x =[50., 350.]     # liste des coord. X de chaque astre (à l'écran)
+y =[100., 100.]    # liste des coord. Y de chaque astre
+step =10           # "pas" de déplacement initial
+
+# Construction de la fenêtre :
+fen = Tk()
+fen.title(' Gravitation universelle suivant Newton')
+# Libellés :
+valM1 = Label(fen, text="M1 = " +str(m1) +" kg")
+valM1.grid(row =1, column =0)
+valM2 = Label(fen, text="M2 = " +str(m2) +" kg")
+valM2.grid(row =1, column =1)
+valDis = Label(fen, text="Distance")
+valDis.grid(row =3, column =0)
+valFor = Label(fen, text="Force")
+valFor.grid(row =3, column =1)
+# Canevas avec le dessin des 2 astres:
+can = Canvas(fen, bg ="light yellow", width =400, height =200)
+can.grid(row =2, column =0, columnspan =2)
+astre[0] = can.create_oval(x[0]-10, y[0]-10, x[0]+10, y[0]+10,
+                           fill ="red", width =1)
+astre[1] = can.create_oval(x[1]-10, y[1]-10, x[1]+10, y[1]+10,
+                           fill ="blue", width =1)
+# 2 groupes de 4 boutons, chacun installé dans un cadre (frame) :
+fra1 = Frame(fen)
+fra1.grid(row =4, column =0, sticky =W, padx =10)
+Button(fra1, text="<-", fg ='red',command =gauche1).pack(side =LEFT)
+Button(fra1, text="->", fg ='red', command =droite1).pack(side =LEFT)
+Button(fra1, text="^", fg ='red', command =haut1).pack(side =LEFT)
+Button(fra1, text="v", fg ='red', command =bas1).pack(side =LEFT)
+fra2 = Frame(fen)
+fra2.grid(row =4, column =1, sticky =E, padx =10)
+Button(fra2, text="<-", fg ='blue', command =gauche2).pack(side =LEFT)
+Button(fra2, text="->", fg ='blue', command =droite2).pack(side =LEFT)
+Button(fra2, text="^", fg ='blue', command =haut2).pack(side =LEFT)
+Button(fra2, text="v", fg ='blue', command =bas2).pack(side =LEFT)
+
+fen.mainloop()
+
+
+# Cercles et courbes de Lissajous
+
+from tkinter import *
+from math import sin, cos
+
+def move():    
+    global ang, x, y
+    # on mémorise les coord. précédentes avant de calculer les nouvelles :
+    xp, yp = x, y
+    # rotation d'un angle de 0.1 radian :
+    ang = ang +.1 
+    # sinus et cosinus de cet angle => coord. d'un point du cercle trigono.
+    x, y = sin(ang), cos(ang)
+    # Variante déterminant une courbe de Lissajous avec f1/f2 = 2/3 :
+    # x, y = sin(2*ang), cos(3*ang)
+    # mise à l'échelle (120 = rayon du cercle, (150,150) = centre du canevas)
+    x, y = x*120 + 150, y*120 + 150
+    can.coords(balle, x-10, y-10, x+10, y+10)
+    can.create_line(xp, yp, x, y, fill ="blue")
+    
+ang, x, y = 0., 150., 270.
+fen = tk()
+fen.title('Courbes de Lissajous')
+can = Canvas(fen, width =300, height=300, bg="white")
+can.pack()
+balle = can.create_oval(x-10, y-10, x+10, y+10, fill='red')
+Button(fen, text='Go', command =move).pack()
+
+fen.mainloop()
+
+
+from tkinter import *
+
+# définition des gestionnaires
+# d'événements :
+
+def move():
+    "déplacement de la balle"
+    global x1, y1, dx, dy, flag
+    x1, y1 = x1 +dx, y1 + dy
+    if x1 >210:
+        x1, dx, dy = 210, 0, 15
+    if y1 >210:
+        y1, dx, dy = 210, -15, 0
+    if x1 <10:
+        x1, dx, dy = 10, 0, -15
+    if y1 <10:
+        y1, dx, dy = 10, 15, 0
+    can1.coords(oval1,x1,y1,x1+30,y1+30)
+    if flag >0: 
+        fen1.after(50,move)       # => boucler après 50 millisecondes
+
+def stop_it():
+    "arret de l'animation"
+    global flag    
+    flag =0
+
+def start_it():
+    "démarrage de l'animation"
+    global flag
+    if flag ==0:       # pour ne lancer qu'une seule boucle 
+       flag =1
+       move()
+
+#========== Programme principal =============
+
+# les variables suivantes seront utilisées de manière globale :
+x1, y1 = 10, 10         # coordonnées initiales
+dx, dy = 15, 0          # 'pas' du déplacement
+flag =0                 # commutateur
+
+# Création du widget principal ("parent") :
+fen1 = Tk()
+fen1.title("Exercice d'animation avec Tkinter")
+# création des widgets "enfants" :
+can1 = Canvas(fen1,bg='dark grey',height=250, width=250)
+can1.pack(side=LEFT, padx =5, pady =5)
+oval1 = can1.create_oval(x1, y1, x1+30, y1+30, width=2, fill='red')
+bou1 = Button(fen1,text='Quitter', width =8, command=fen1.quit)
+bou1.pack(side=BOTTOM)
+bou2 = Button(fen1, text='Démarrer', width =8, command=start_it)
+bou2.pack()
+bou3 = Button(fen1, text='Arrêter', width =8, command=stop_it)
+bou3.pack()
+# démarrage du réceptionnaire d'évènements (boucle principale) :
+fen1.mainloop()
+
+
+# Chutes et rebonds
+
+from tkinter import *
+
+def move():
+    global x, y, v, dx, dv, flag
+    xp, yp = x, y            # mémorisation des coord. précédentes
+    # déplacement horizontal :
+    if x > 385 or x < 15 :   # rebond sur les parois latérales :
+        dx = -dx             # on inverse le déplacement
+    x = x + dx
+    # variation de la vitesse verticale (toujours vers le bas):
+    v = v + dv
+    # déplacement vertical (proportionnel à la vitesse)
+    y = y + v       
+    if y > 240:              # niveau du sol à 240 pixels : 
+        y = 240              #  défense d'aller + loin !
+        v = -v               # rebond : la vitesse s'inverse
+    # on repositionne la balle :    
+    can.coords(balle, x-10, y-10, x+10, y+10)
+    # on trace un bout de trajectoire :
+    can.create_line(xp, yp, x, y, fill ='light grey')
+    # ... et on remet ça jusqu'à plus soif :
+    if flag > 0:
+        fen.after(50,move)
+
+def start():
+    global flag
+    flag = flag +1
+    if flag == 1:
+        move()
+
+def stop():
+    global flag
+    flag =0
+
+# initialisation des coordonnées, des vitesses et du témoin d'animation :    
+x, y, v, dx, dv, flag  = 15, 15, 0, 6, 5, 0
+
+fen = Tk()
+fen.title(' Chutes et rebonds')
+can = Canvas(fen, width =400, height=250, bg="white")
+can.pack()
+balle = can.create_oval(x-10, y-10, x+10, y+10, fill='red')
+Button(fen, text='Start', command =start).pack(side =LEFT, padx =10)
+Button(fen, text='Stop', command =stop).pack(side =LEFT)
+Button(fen, text='Quitter', command =fen.quit).pack(side =RIGHT, padx =10)
+
+fen.mainloop()
+
+
+
+
+x1, y1, x2, y2 = 40, 40, 60, 60
+
+a = 0
+
+def dep():
+    global x1, y1, x2, y2, a
+    if a == 0:
+        x1, x2 = x1 + 10, x2 + 10
+        can1.coords(balle, x1, y1, x2, y2)
+        if x2 == 200:
+            a = 1
+    elif a == 1:
+        x1, x2 = x1 -10, x2 - 10
+        can1.coords(balle, x1, y1, x2, y2)
+        if x1 == 0:
+            a = 0
+    
+from tkinter import *
+
+fenetre = tk()
+fenetre.title("Exercice 8.17")
+
+can1 = Canvas(fenetre, bg="green", width=200, height=200)
+balle = can1.create_oval(x1, y1, x2, y2, fill="red")
+can1.pack()
+
+bou1 = Button(fenetre, text="Deplacer la balle", command=dep)
+bou1.pack()
+
+fenetre.mainloop()
+
+import rebound
+sim = rebound.Simulation()
+sim.add(m=1)
+sim.add(m=0.1, e=0.041, a=0.4, inc=0.2, f=0.43, Omega=0.82, omega=2.98)
+sim.add(m=1e-3, e=0.24, a=1.0, pomega=2.14)
+sim.add(m=1e-3, e=0.24, a=1.5, omega=1.14, l=2.1)
+sim.add(a=-2.7, e=1.4, f=-1.5,omega=-0.7) # hyperbolic orbit
+
+
+
