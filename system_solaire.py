@@ -247,16 +247,16 @@ class Planet(Turtle):# classe planete
         self.velocity = self.velocity + 0.5 * distance * self.a#
         
     def acc(self):#
-        a = Vec(0,0)#
-        for planet in self.gravity.planets:#
-            if planet != self:#
-                velocity = planet.pos()-self.pos()#
-                a += (G*planet.mass/abs(velocity)**3)*velocity#
+        a = Vec(0,0)# definir un vecteur a de 0,0
+        for planet in self.gravity.planets:#lire dans 
+            if planet != self:# si une planete differente d'une autre 
+                velocity = planet.pos()-self.pos()# position de la planète moins la position de l'autre
+                a += (G*planet.mass/abs(velocity)**3)*velocity# force de la planète
         return a
     
-    def step(self):#
+    def step(self):
         distance = self.gravity.distance#
-        self.setpos(self.pos() + distance * self.velocity)#
+        self.setpos(self.pos() + distance * self.velocity)#mettre la planete à une position précise 
         if self.gravity.planets.index(self) != 0:#
             self.setheading(self.towards(self.gravity.planets[0]))#
         self.a = self.acc()#
@@ -266,16 +266,16 @@ class Planet(Turtle):# classe planete
         
 ## create compound yellow/blue turtleshape for planets
 def main():
-    s = Turtle()
-    s.reset()
-    s.getscreen().tracer(0,0)
-    s.ht() #hide turtle
-    s.pu() #pen up
-    s.fd(6) # forward
-    s.lt(90) #lt
+    s = Turtle()#affecter turtle à s
+    s.reset()# tout effacer
+    s.getscreen().tracer(0,0)#
+    s.ht() # cacher la tortue(la planète)
+    s.pu() #ne pas tacer
+    s.fd(6) # déplacer la planète de 6 sur l'axe des x
+    s.lt(90) #touner à un angle de 90 degre
     s.begin_poly() #begining of the polygon, the current position is the first vecto of the polygon
-    s.circle(5) 
-    s.end_poly() #end the polygon
+    s.circle(5) #dessiner un cercle de rayon 5 
+    s.end_poly() # fin de la figure
     #creates m1, creats a semi circle  
     m1 = s.get_poly()
     s.begin_poly()
@@ -288,27 +288,27 @@ def main():
     s.getscreen().register_shape("planet", planetshape)
     s.getscreen().tracer(1,0)
     ## setup gravitational system
-    gs = Gravity()
-    sun = Planet(1000000, Vec(0,0), Vec(0,0), gs, "circle")
-    sun.color("yellow")
-    sun.shapesize(5)
-    sun.pu()
-    earth = Planet(12500, Vec(215,0), Vec(0,195), gs, "planet")
-    earth.pencolor("green")
-    earth.shapesize(2)
-    moon = Planet(1, Vec(225,0), Vec(0,295),gs, 'planet')
-    moon.pencolor('blue')
-    moon.shapesize(1)
-    mars = Planet(4000, Vec(0,327), Vec(150,0), gs, "planet")
-    mars.pencolor('red')
-    mars.shapesize(2)
-    jupiter = Planet(750, Vec(-430,0), Vec(0,100), gs, "planet")
-    jupiter.pencolor('purple')
-    jupiter.shapesize(3)
- #   p5 = Planet (mass, x_pos, velocity, gravity, shape)
+    gs = Gravity()# utilise la classe gravity et en l'affectantà gs
+    sun = Planet(1000000, Vec(0,0), Vec(0,0), gs, "circle") #utilsation de la classe planet avec les paramètres 
+    sun.color("yellow")#changer la couleur
+    sun.shapesize(5)# taille de la boule
+    sun.pu()#ne fait pas de tracer
+    earth = Planet(12500, Vec(215,0), Vec(0,195), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    earth.pencolor("green")#changer la couleur
+    earth.shapesize(2)# taille de la boule
+    moon = Planet(1, Vec(225,0), Vec(0,295),gs, 'planet')#utilsation de la classe planet avec les paramètres 
+    moon.pencolor('blue')#changer la couleur
+    moon.shapesize(1)# taille de la boule
+    mars = Planet(4000, Vec(327,0), Vec(150,0), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    mars.pencolor('red')#changer la couleur
+    mars.shapesize(2)# taille de la boule
+    jupiter = Planet(750, Vec(430,0), Vec(0,100), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    jupiter.pencolor('purple')#changer la couleur
+    jupiter.shapesize(3)# taille de la boule
+ #   p5 = Planet (mass, vec(x,y), vec(), gravity, shape)
  #   p6 = (name, radius), mass, colour, distance, x velocity, y velocity
-    gs.init()
-    gs.start()
+    gs.init()#inclure gs dans init
+    gs.start()#inclure gs dans start
 #   s.onclick(pause)
     return "Done!"
 
