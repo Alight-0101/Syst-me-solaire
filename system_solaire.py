@@ -98,6 +98,7 @@ if __name__ == '__main__':
 
 print(**********************************************************************************************************************************)
 
+
 from turtle import Shape, Turtle, mainloop, Vec2D as Vec 
 from time import sleep
 #Turtle.bgcolor("black")
@@ -117,7 +118,7 @@ class Gravity(object):# classe Gravity avec un objet
             planet.init()#ajouter les elements de la liste à la planete
             
     def start(self):
-        for i in range(200):# boucle pour répéter 500 fois
+        for i in range(500):# boucle pour répéter 500 fois
             self.time += self.distance# additionner le temps initiale avec la distance initiale
             for planet in self.planets:#lire la liste
                 planet.step()#permet d'avancer les planetes
@@ -187,18 +188,42 @@ def main():
     sun.color("yellow")#changer la couleur
     sun.shapesize(5)# taille de la boule
     sun.pu()#ne fait pas de tracer
+    
+    mercure = Planet(12500, Vec(200,0), Vec(0,195), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    mercure.pencolor("orange")#changer la couleur
+    mercure.shapesize(1)# taille de la boule
+    
+    vénus = Planet(12500, Vec(215,0), Vec(0,195), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    vénus.pencolor("pink")#changer la couleur
+    vénus.shapesize(2)# taille de la boule
+    
     earth = Planet(12500, Vec(215,0), Vec(0,195), gs, "planet")#utilsation de la classe planet avec les paramètres 
     earth.pencolor("green")#changer la couleur
     earth.shapesize(2)# taille de la boule
-    #moon = Planet(1, Vec(225,0), Vec(0,295),gs, 'planet')#utilsation de la classe planet avec les paramètres 
-    #moon.pencolor('blue')#changer la couleur
-    #moon.shapesize(1)# taille de la boule
-    #mars = Planet(4000, Vec(327,0), Vec(150,0), gs, "planet")#utilsation de la classe planet avec les paramètres 
-    #mars.pencolor('red')#changer la couleur
-    #mars.shapesize(2)# taille de la boule
-    #jupiter = Planet(750, Vec(430,0), Vec(0,100), gs, "planet")#utilsation de la classe planet avec les paramètres 
-    #jupiter.pencolor('purple')#changer la couleur
-    #jupiter.shapesize(3)# taille de la boule
+    
+    moon = Planet(1, Vec(225,0), Vec(0,295),gs, 'planet')#utilsation de la classe planet avec les paramètres 
+    moon.pencolor('blue')#changer la couleur
+    moon.shapesize(1)# taille de la boule
+    
+    mars = Planet(4000, Vec(327,0), Vec(150,0), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    mars.pencolor('red')#changer la couleur
+    mars.shapesize(2)# taille de la boule
+    
+    jupiter = Planet(750, Vec(430,0), Vec(0,100), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    jupiter.pencolor('purple')#changer la couleur
+    jupiter.shapesize(3)# taille de la boule
+    
+    saturne  = Planet(12500, Vec(500,0), Vec(0,195), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    saturne.pencolor("yellow")#changer la couleur
+    saturne.shapesize(2)# taille de la boule
+    
+    uranus = Planet(12500, Vec(550,0), Vec(0,195), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    uranus.pencolor("green")#changer la couleur
+    uranus.shapesize(2)# taille de la boule
+    
+    neptune = Planet(12500, Vec(600,0), Vec(0,195), gs, "planet")#utilsation de la classe planet avec les paramètres 
+    neptune.pencolor("green")#changer la couleur
+    neptune.shapesize(2)# taille de la boule
  #   p5 = Planet (mass, vec(x,y), vec(pos,temps), gravity, shape)
  #   p6 = (name, radius), mass, colour, distance, x velocity, y velocity
     gs.init()#inclure gs dans init
@@ -210,4 +235,3 @@ if __name__ == '__main__':
     msg = main()#associé à msg la fonc main
     print(msg)#utiliser la fonction main
     mainloop()# reboucler 
-    
