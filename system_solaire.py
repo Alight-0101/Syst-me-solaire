@@ -139,9 +139,9 @@ class Planet(Turtle):# classe planete
     def init(self):
         distance = self.gravity.distance# utilise la fonction distance et la mettre dans une variable
         self.a = self.acc()# 
-        self.velocity = self.velocity + 0.5 * distance * self.a#
+        self.velocity = self.velocity + 0.5 * distance * self.a# permet de changer la rapidité
         
-    def acc(self):#
+    def acc(self):
         a = Vec(0,0)# definir un vecteur a de 0,0
         for planet in self.gravity.planets:#lire la gravité des planets
             if planet != self:# si une planete differente d'une autre 
@@ -153,31 +153,16 @@ class Planet(Turtle):# classe planete
         distance = self.gravity.distance# apelle la disance dans la fonc gravity pour placer la valeur distance dans une variable
         self.setpos(self.pos() + distance * self.velocity)#mettre la planete à une position précise 
         if self.gravity.planets.index(self) != 0:#si les elément de la liste self.planete est différent de 0
-            self.setheading(self.towards(self.gravity.planets[0]))# angle de la planète qui tend vers 
-        self.a = self.acc()#
-        self.velocity = self.velocity + distance * self.a#
-        
-        
-class Soleil(Turtle):# classe planete
-    
-    def __init__(self, mass, x_pos, velocity, gravity, shape):# soi-meme,masse, position initaile x, rapidité, gravité, forme
-        Turtle.__init__(self, shape=shape)#
-        self.penup()# ne pas dessiner (ne pas faire de tracer)
-        self.mass = mass#masse donné = masse
-        self.setpos(x_pos)# position x donné= position
-        self.velocity = velocity#rapidité donné= rapidité
-        gravity.planets.append(self)# apelle de la fonction gravity 
-        self.gravity = gravity#gravité donné=gravité
-        self.resizemode("user")# l'utilisateur choisi la forme de de la tortue
-        self.pendown()#dessiner (faire un tracer)
+            self.setheading(self.towards(self.gravity.planets[0]))# angle de la planète qui tend vers la première valeur dans la liste self.planète
+        self.a = self.acc()# fait bouger la planete en changant le vecteur initial 
+        self.velocity = self.velocity + distance * self.a# vitesse qui change
         
         
         
-## create compound yellow/blue turtleshape for planets
 def main():
     s = Turtle()#affecter turtle à s
     s.reset()# tout effacer
-    s.getscreen().tracer(0,0)#
+    s.getscreen().tracer(0,0)# forme de l'objet qui permet de faire une animation
     s.ht() # cacher la tortue(la planète)
     s.pu() #ne pas tacer
     s.fd(6) # déplacer la planète de 6 sur l'axe des x
@@ -185,18 +170,18 @@ def main():
     s.begin_poly() #begining of the polygon, the current position is the first vecto of the polygon
     s.circle(5) #dessiner un cercle de rayon 5 
     s.end_poly() # fin de la figure
-    #creates m1, creats a semi circle  
-    m1 = s.get_poly()
-    s.begin_poly()
-    s.circle(5)
-    s.end_poly()
-    #creates m2, uses the specs from the last recorded poly ^
-    #m2 = s.get_poly()
-    planetshape = Shape("compound")
-    planetshape.addcomponent(m1,"green")
-    s.getscreen().register_shape("planet", planetshape)
-    s.getscreen().tracer(1,0)
-    ## setup gravitational system
+    #création de m1, un demi cercle
+    m1 = s.get_poly()# utilise le dernier polynome enregistré
+    s.begin_poly()# début du poly(tracer)
+    s.circle(5)#dessiner un cercle de rayon 5
+    s.end_poly()#fin de la figure
+    # création de m2 avec les même propriétés que m1 
+    m2 = s.get_poly()# utilise le dernier polynome enregistré
+    planetshape = Shape("compound")# forme de la planète 
+    planetshape.addcomponent(m1,"green")# ajoute m1 et la couleur vert comme donnée
+    s.getscreen().register_shape("planet", planetshape)#enregistre les données 
+    s.getscreen().tracer(1,0)#forme de l'objet qui permet de faire une animation une fois
+    
     gs = Gravity()# utilise la classe gravity et en l'affectantà gs
     sun = Soleil(1000000, Vec(0,0), Vec(0,0), gs, "circle") #utilsation de la classe planet avec les paramètres 
     sun.color("yellow")#changer la couleur
@@ -214,15 +199,15 @@ def main():
     #jupiter = Planet(750, Vec(430,0), Vec(0,100), gs, "planet")#utilsation de la classe planet avec les paramètres 
     #jupiter.pencolor('purple')#changer la couleur
     #jupiter.shapesize(3)# taille de la boule
- #   p5 = Planet (mass, vec(x,y), vec(), gravity, shape)
+ #   p5 = Planet (mass, vec(x,y), vec(pos,temps), gravity, shape)
  #   p6 = (name, radius), mass, colour, distance, x velocity, y velocity
     gs.init()#inclure gs dans init
     gs.start()#inclure gs dans start
-#   s.onclick(pause)
-    return "Done!"
+    s.onclick(pause)# faire pause 
+    return "Done!"# 
 
-if __name__ == '__main__':
-    msg = main()
-    print(msg)
-    mainloop()
+if __name__ == '__main__': 
+    msg = main()#associé à msg la fonc main
+    print(msg)#utiliser la fonction main
+    mainloop()# reboucler 
     
