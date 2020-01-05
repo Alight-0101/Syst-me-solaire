@@ -127,7 +127,7 @@ import math
 import matplotlib.pyplot as plt
 from turtle import Shape, Turtle, mainloop, Vec2D as Vec 
 import turtle
-import random
+from random import uniform
 
 class timeHoursSeconds(object):
     def __init__(self,s,h,d,y):
@@ -192,6 +192,18 @@ class planet(object):
 def main():
     fond=turtle.Screen()
     fond.bgcolor ( "black" )
+    font=turtle.Turtle()
+    for i in range (100) :
+       font.hideturtle()
+       font.penup()
+       font.speed(0)
+       x=uniform(-500,500)
+       y=uniform(-300,300)
+       circle_taille= uniform(1,5)
+       font.goto(x,y)
+       font.pendown()
+       font.color('white')
+       font.circle(circle_taille)
 
     mer = turtle.Turtle()
     mer.color('orange')
