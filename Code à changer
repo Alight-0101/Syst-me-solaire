@@ -254,6 +254,16 @@ def main():
    nep.setposition(0,-300)
    nep.pendown()
    nep.circle(300)
+   
+   for i in range (100):
+    mer.circle(30)
+    ven.circle(60)
+    ea.circle(100)
+    mar.circle(130)
+    jup.circle(160)
+    sat.circle(200)
+    ur.circle(260)
+    nep.circle(300)
 
 
     mercure = planet("Mercure",3.302 * math.pow(10,23),57910000000,0,0.3)
