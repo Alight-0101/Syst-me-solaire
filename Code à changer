@@ -126,9 +126,8 @@ print('**********************************************************')
 import math
 import matplotlib.pyplot as plt
 from turtle import Shape, Turtle, mainloop, Vec2D as Vec 
-#from tkinter import*
-
-
+import turtle
+import random
 
 class timeHoursSeconds(object):
     def __init__(self,s,h,d,y):
@@ -191,79 +190,84 @@ class planet(object):
 
 
 def main():
-    mer = Turtle()
-    mer.color('red')
+    fond=turtle.Screen()
+    fond.bgcolor ( "black" )
+
+    mer = turtle.Turtle()
+    mer.color('orange')
     mer.shape('circle')
     mer.penup()
     mer.setposition(0,-100)
     mer.pendown()
     mer.circle(30)
 
-    ven = Turtle()
-    ven.color('blue')
+    ven = turtle.Turtle()
+    ven.color('red')
     ven.shape('circle')
     ven.penup()
     ven.setposition(0,-125)
     ven.pendown()
     ven.circle(60)
 
-   ea = Turtle()
-   ea.color('blue')
-   ea.shape('circle')
-   ea.penup()
-   ea.setposition(0,-150)
-   ea.pendown()
-   ea.circle(100)
-
-   mar = Turtle()
-   mar.color('blue')
-   mar.shape('circle')
-   mar.penup()
-   mar.setposition(0,-175)
-   mar.pendown()
-   mar.circle(130)
-
-   jup = Turtle()
-   jup.color('blue')
-   jup.shape('circle')
-   jup.penup()
-   jup.setposition(0,-200)
-   jup.pendown()
-   jup.circle(200)
-   
-   sat = Turtle()
-   sat.color('blue')
-   sat.shape('circle')
-   sat.penup()
-   sat.setposition(0,-250)
-   sat.pendown()
-   sat.circle(230)
-
-   ur = Turtle()
-   ur.color('blue')
-   ur.shape('circle')
-   ur.penup()
-   ur.setposition(0,-275)
-   ur.pendown()
-   ur.circle(260)
-
-   nep = Turtle()
-   nep.color('blue')
-   nep.shape('circle')
-   nep.penup()
-   nep.setposition(0,-300)
-   nep.pendown()
-   nep.circle(300)
-   
-   for i in range (100):
-    mer.circle(30)
-    ven.circle(60)
+    ea = turtle.Turtle()
+    ea.color('blue')
+    ea.shape('circle')
+    ea.penup()
+    ea.setposition(0,-150)
+    ea.pendown()
     ea.circle(100)
+
+    mar = turtle.Turtle()
+    mar.color('red')
+    mar.shape('circle')
+    mar.penup()
+    mar.setposition(0,-175)
+    mar.pendown()
     mar.circle(130)
+
+    jup = turtle.Turtle()
+    jup.color('yellow')
+    jup.shape('circle')
+    jup.penup()
+    jup.setposition(0,-200)
+    jup.pendown()
     jup.circle(160)
+
+    sat = turtle.Turtle()
+    sat.color('yellow')
+    sat.shape('circle')
+    sat.penup()
+    sat.setposition(0,-225)
+    sat.pendown()
     sat.circle(200)
+
+    ur = turtle.Turtle()
+    ur.color('cyan')
+    ur.shape('circle')
+    ur.penup()
+    ur.setposition(0,-275)
+    ur.pendown()
     ur.circle(260)
+
+    nep = turtle.Turtle()
+    nep.color('blue')
+    nep.shape('circle')
+    nep.penup()
+    nep.setposition(0,-300)
+    nep.pendown()
     nep.circle(300)
+   
+    for i in range (100):
+       mer.circle(30)
+       ven.circle(60)
+       ea.circle(100)
+       mar.circle(130)
+       jup.circle(160)
+       sat.circle(200)
+       ur.circle(260)
+       nep.circle(300)
+       
+    
 
 
     mercure = planet("Mercure",3.302 * math.pow(10,23),57910000000,0,0.3)
