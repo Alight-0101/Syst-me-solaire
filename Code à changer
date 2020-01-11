@@ -1,199 +1,133 @@
-# -*- coding: utf-8 -*-
-
-from tkinter import*
-from math import*
-from math import sqrt
- 
-fenetre = Tk()
-fenetre.title("le mouvement d'une planète autour de son étoile")
-
-def mouvement():
-    global t
-    t=t+0.2#temps
-    w1=0.25#poids
-    w2=0.3
-    dessin.coords(etoile,(xc-rs)+R*sin(t*pi),(yc-rs)+R*cos(t*pi),(xc+rs)+R*sin(t*pi),(yc+rs)+R*cos(t*pi))#mvt de l'etoile
-    dessin.create_oval((xc-rs)+R*sin(t*pi)+rs-0.01,(yc-rs)+R*cos(t*pi)+rs-0.01,(xc-rs)+R*sin(t*pi)+rs+0.01,(yc-rs)+R*cos(t*pi)+rs+0.01,fill='blue')#trace laissee par le jaune et  le bleu
-    dessin.coords(planete,(xc-rp)+R1*sin(t*w1*pi),(yc-rp)+R1*cos(t*w1*pi),(xc+rp)+R1*sin(t*w1*pi),(yc+rp)+R1*cos(t*w1*pi))#mvt du rouge
-    dessin.create_oval((xc-rp)+R1*sin(t*0.25*pi)+rp-0.01,(yc-rp)+R1*cos(t*0.25*pi)+rp-0.01,(xc-rp)+R1*sin(t*0.25*pi)+rp+0.1,(yc-rp)+R1*cos(t*0.25*pi)+rp+0.1,fill='green')#trace du rouge
-    dessin.coords(lune,(xc-rlune)+R2*sin(t*w2*pi),(yc-rp)+R2*cos(t*w2*pi),(xc+rlune)+ R2*sin(t*w2*pi),(yc+rlune)+R2*cos(t*w2*pi))#mvt du bleu
-
-    fenetre.after(90,mouvement)#vitesse de defilement
-
-global xs,ys,rs,xp,yp,rp,xc,yc,rc,R,t,xlune,ylune,rlune
-t=0
-#coordonnées du milieu de centre de masse
-xc=500
-yc=500
-rc=5 #son rayon
-#coordonées du centre de l'étoile
-xs=450
-ys=450
-rs=20 #son rayon
-#coordonnées de la planète
-xp=300
-yp=300
-rp=20
-
-
-#coordonnées de lune
-xlune=450
-ylune=450
-rlune=20
-
-
-
-# Rayon de la trajectoire de la planete autour de son étoile
-R= sqrt((xs-xc)**2+(ys-yc)**2)
-
-R1=sqrt((xp-xc)**2+(yp-yc)**2)
-
-R2=sqrt((xlune-xc)**2+(ylune-yc)**2)
-
-dessin = Canvas(fenetre, width=1000, height = 1000, bg="white", bd=8, relief="ridge")#width=largeur height=longueur bg=fond bd=le contour relief=la mise en avant de la fenetre testez avec raised
-dessin.pack()
-centre=dessin.create_oval(xc-rc,yc-rc,xc+rc,yc+rc,fill="black")#cree une boule noire
-etoile=dessin.create_oval(xs-rs,ys-rs,xs+rs,ys+rs,fill="yellow")#cree une boule jaune
-planete=dessin.create_oval(xp-rp,yp-rp,xp+rp,yp+rp,fill="red")#cree une boule rouge
-lune=dessin.create_oval(xlune-rlune,ylune-rlune,xlune+rlune,ylune+rlune,fill="blue")#cree une boule bleu 
-#si une des 3 lignes ci dessus disparait, il n'y a pas que la boule qui disparait. testez pour comprendre
-
-mouvement()
-
-fenetre.mainloop()
-
-
-
-
-
-def distance(x1, y1, x2, y2):
-    "distance séparant les points x1,y1 et x2,y2"
-    d = sqrt((x2-x1)**2 + (y2-y1)**2)       # théorème de Pythagore
-    return  d
-
-def forceG(m1, m2, di):
-    "force de gravitation s'exerçant entre m1 et m2 pour une distance di"
-    return m1*m2*6.67e-11/di**2             # loi de Newton
-
-# Masses des deux astres :
-m1 = 6e24          # (valeur de la masse de la terre, en kg)
-m2 = 6e24          # 
-astre = [0]*2      # liste servant à mémoriser les références des dessins
-x =[50., 350.]     # liste des coord. X de chaque astre (à l'écran)
-y =[100., 100.]    # liste des coord. Y de chaque astre
-step =10           # "pas" de déplacement initial
-
-# Construction de la fenêtre :
-fen = Tk()
-fen.title(' Gravitation universelle suivant Newton')
-# Libellés :
-valM1 = Label(fen, text="M1 = " +str(m1) +" kg")
-valM1.grid(row =1, column =0)
-valM2 = Label(fen, text="M2 = " +str(m2) +" kg")
-valM2.grid(row =1, column =1)
-valDis = Label(fen, text="Distance")
-valDis.grid(row =3, column =0)
-valFor = Label(fen, text="Force")
-valFor.grid(row =3, column =1)
-
-# Canevas avec le dessin des 2 astres:
-can = Canvas(fen, bg ="light yellow", width =400, height =200)
-can.grid(row =2, column =0, columnspan =2)
-astre[0] = can.create_oval(x[0]-10, y[0]-10, x[0]+10, y[0]+10,
-                           fill ="red", width =1)
-astre[1] = can.create_oval(x[1]-10, y[1]-10, x[1]+10, y[1]+10,
-                           fill ="blue", width =1)
-# 2 groupes de 4 boutons, chacun installé dans un cadre (frame) :
-fra1 = Frame(fen)
-fra1.grid(row =4, column =0, sticky =W, padx =10)
-Button(fra1, text="<-", fg ='red',command =gauche1).pack(side =LEFT)
-Button(fra1, text="->", fg ='red', command =droite1).pack(side =LEFT)
-Button(fra1, text="^", 
-       fg ='red', command =haut1).pack(side =LEFT)
-Button(fra1, text="v", fg ='red', command =bas1).pack(side =LEFT)
-fra2 = Frame(fen)
-fra2.grid(row =4, column =1, sticky =E, padx =10)
-Button(fra2, text="<-", fg ='blue', command =gauche2).pack(side =LEFT)
-Button(fra2, text="->", fg ='blue', command =droite2).pack(side =LEFT)
-Button(fra2, text="^", fg ='blue', command =haut2).pack(side =LEFT)
-Button(fra2, text="v", fg ='blue', command =bas2).pack(side =LEFT)
-
-fen.mainloop()
-
-
-print('**********************************************************')
-
-import math
-import matplotlib.pyplot as plt
-from turtle import Shape, Turtle, mainloop, Vec2D as Vec 
+from tkinter import *
 import turtle
 from random import uniform
 
-class timeHoursSeconds(object):
-    def __init__(self,s,h,d,y):
-        self.s = s
-        self.h = h
-        self.d = d
-        self.y = y
-    def fromStoHours(self):
-        h = self.s/60/60
-        return h
-    def fromStoDays(self):
-        d = self.s/60/60/24
-        return d
-    def fromStoYears(self):
-        y = self.s/60/60/24/365
-        return y
-    def fromDaysToS(self):
-        s = self.d*24*60*60
-        return s
-    def fromDaysToH(self):
-        h = self.d * 24
-        return h
-    def fromDaysToY(self):
-        y = self.d/365
-        return y
-
-class planet(object):
-    G = 6.67 * math.pow(10,-11)
-    sunM = 1.989 * math.pow(10,30)
-    eaM = 5.973 * math.pow(10,24)
-    RTL = 384400000
-    def __init__(self,name,mass,RS,theta0,radius):
-        self.name = name
-        self.mass = mass
-        self.RS = RS
-        self.theta0 = theta0
-        self.radius = radius
-    def gravitationalForce(self,m2=1):
-        if m2 ==1:
-            f = self.G * (self.mass*self.sunM)/math.pow(self.RS,2)
-        else:
-            f = self.G * (self.mass*self.eaM)/math.pow(self.RTL,2)
-        return f
-    def angularVelocity(self,m2=1):
-        w = math.sqrt(self.gravitationalForce(m2=m2)/(self.mass*self.RS))
-        return w
-    def velocity(self,m2=1):
-        v = self.angularVelocity(m2=1) * self.RS
-        return v
-    def angularPosition(self,t,m2=1):
-        theta = self.theta0 + self.angularVelocity(m2=m2) * t
-        return theta
-    def varAngularPosition(self,t,dt,m2=1):
-        dtheta = self.angularPosition(t+dt,m2=m2)-self.angularPosition(t,m2=m2)
-        return dtheta
-    def periodAroundSun(self,m2=1):
-        p = timeHoursSeconds(2*math.pi/self.angularVelocity(m2=m2),0,0,0)
-        return p
+def open_window():
+    top = Toplevel()
+    top.title("Planete")
+    boutonquit = Button(top,text="close",command=top.destroy)
+    boutonquit.pack()
     
-
-
-def main():
+def systeme():
+    
     fond=turtle.Screen()
     fond.bgcolor ( "black" )
+    
     font=turtle.Turtle()
-    for i in range (100) :
+    for i in range (100) :    
+        font.hideturtle()
+        font.penup()
+        font.speed(0)
+        x=uniform(-600,600)
+        y=uniform(-300,300)
+        circle_taille= uniform(1,5)
+        font.goto(x,y)
+        font.pendown()
+        font.color('white')
+        font.circle(circle_taille)
+       
+    mer = turtle.Turtle()
+    mer.color('orange')
+    mer.shape('circle')
+    mer.penup()
+    mer.setposition(0,-100)
+    mer.pendown()
+    mer.circle(30)
+    ven = turtle.Turtle()
+    ven.color('red')
+    ven.shape('circle')
+    ven.penup()
+    ven.setposition(0,-125)
+    ven.pendown()
+    ven.circle(60)
+    ea = turtle.Turtle()
+    ea.color('blue')
+    ea.shape('circle')
+    ea.penup()
+    ea.setposition(0,-150)
+    ea.pendown()
+    ea.circle(100)
+    mar = turtle.Turtle()
+    mar.color('red')
+    mar.shape('circle')
+    mar.penup()
+    mar.setposition(0,-175)
+    mar.pendown()
+    mar.circle(130)
+    jup = turtle.Turtle()
+    jup.color('yellow')
+    jup.shape('circle')
+    jup.penup()
+    jup.setposition(0,-200)
+    jup.pendown()
+    jup.circle(160)
+    sat = turtle.Turtle()
+    sat.color('yellow')
+    sat.shape('circle')
+    sat.penup()
+    sat.setposition(0,-225)
+    sat.pendown()
+    sat.circle(200)
+    ur = turtle.Turtle()
+    ur.color('cyan')
+    ur.shape('circle')
+    ur.penup()
+    ur.setposition(0,-275)
+    ur.pendown()
+    ur.circle(260)
+    nep = turtle.Turtle()
+    nep.color('blue')
+    nep.shape('circle')
+    nep.penup()
+    nep.setposition(0,-300)
+    nep.pendown()
+    nep.circle(300)
+    for i in range (100):
+        mer.circle(30)
+        ven.circle(60)
+        ea.circle(100)
+        mar.circle(130)
+        jup.circle(160)
+        sat.circle(200)
+        ur.circle(260)
+        nep.circle(300)
+
+
+root = Tk()
+canvas = Canvas(master = root, width = 500, height = 500)
+canvas.pack()
+bouton = Button(root,text="Start", command=systeme)
+bouton.pack()
+
+bouton_mer = Button(root, text="open window", command=open_window)
+bouton_mer.pack(side=LEFT)
+bouton_ven = Button(root, text="open window", command=open_window)
+bouton_ven.pack(side=LEFT)
+bouton_ter = Button(root, text="open window", command=open_window)
+bouton_ter.pack(side=LEFT)
+bouton_mar = Button(root, text="open window", command=open_window)
+bouton_mar.pack(side=LEFT)
+bouton_jup = Button(root, text="open window", command=open_window)
+bouton_jup.pack(side=LEFT)
+bouton_sat = Button(root, text="open window", command=open_window)
+bouton_sat.pack(side=LEFT)
+bouton_ur = Button(root, text="open window", command=open_window)
+bouton_ur.pack(side=LEFT)
+bouton_nep = Button(root, text="open window", command=open_window)
+bouton_nep.pack(side=LEFT)
+
+root.mainloop()
+
+
+print ("juste le code du systeme")
+
+import turtle
+from random import uniform
+fond=turtle.Screen()
+
+fond.bgcolor ( "black" )
+font=turtle.Turtle()
+for i in range (100) :
        font.hideturtle()
        font.penup()
        font.speed(0)
@@ -205,145 +139,82 @@ def main():
        font.color('white')
        font.circle(circle_taille)
 
-    mer = turtle.Turtle()
-    mer.color('orange')
-    mer.shape('circle')
-    mer.penup()
-    mer.setposition(0,-100)
-    mer.pendown()
-    mer.circle(30)
-
-    ven = turtle.Turtle()
-    ven.color('red')
-    ven.shape('circle')
-    ven.penup()
-    ven.setposition(0,-125)
-    ven.pendown()
-    ven.circle(60)
-
-    ea = turtle.Turtle()
-    ea.color('blue')
-    ea.shape('circle')
-    ea.penup()
-    ea.setposition(0,-150)
-    ea.pendown()
-    ea.circle(100)
-
-    mar = turtle.Turtle()
-    mar.color('red')
-    mar.shape('circle')
-    mar.penup()
-    mar.setposition(0,-175)
-    mar.pendown()
-    mar.circle(130)
-
-    jup = turtle.Turtle()
-    jup.color('yellow')
-    jup.shape('circle')
-    jup.penup()
-    jup.setposition(0,-200)
-    jup.pendown()
-    jup.circle(160)
-
-    sat = turtle.Turtle()
-    sat.color('yellow')
-    sat.shape('circle')
-    sat.penup()
-    sat.setposition(0,-225)
-    sat.pendown()
-    sat.circle(200)
-
-    ur = turtle.Turtle()
-    ur.color('cyan')
-    ur.shape('circle')
-    ur.penup()
-    ur.setposition(0,-275)
-    ur.pendown()
-    ur.circle(260)
-
-    nep = turtle.Turtle()
-    nep.color('blue')
-    nep.shape('circle')
-    nep.penup()
-    nep.setposition(0,-300)
-    nep.pendown()
-    nep.circle(300)
-   
-    for i in range (100):
-       mer.circle(30)
-       ven.circle(60)
-       ea.circle(100)
-       mar.circle(130)
-       jup.circle(160)
-       sat.circle(200)
-       ur.circle(260)
-       nep.circle(300)
        
-    
+mer = turtle.Turtle()
+mer.color('orange')
+mer.shape('circle')
+mer.penup()
+mer.setposition(0,-100)
+mer.pendown()
+mer.circle(30)
+
+ven = turtle.Turtle()
+ven.color('red')
+ven.shape('circle')
+ven.penup()
+ven.setposition(0,-125)
+ven.pendown()
+ven.circle(60)
+
+ea = turtle.Turtle()
+ea.color('blue')
+ea.shape('circle')
+ea.penup()
+ea.setposition(0,-150)
+ea.pendown()
+ea.circle(100)
+
+mar = turtle.Turtle()
+mar.color('red')
+mar.shape('circle')
+mar.penup()
+mar.setposition(0,-175)
+mar.pendown()
+mar.circle(130)
+
+jup = turtle.Turtle()
+jup.color('yellow')
+jup.shape('circle')
+jup.penup()
+jup.setposition(0,-200)
+jup.pendown()
+jup.circle(160)
+
+sat = turtle.Turtle()
+sat.color('yellow')
+sat.shape('circle')
+sat.penup()
+sat.setposition(0,-225)
+sat.pendown()
+sat.circle(200)
+
+ur = turtle.Turtle()
+ur.color('cyan')
+ur.shape('circle')
+ur.penup()
+ur.setposition(0,-275)
+ur.pendown()
+ur.circle(260)
+
+nep = turtle.Turtle()
+nep.color('blue')
+nep.shape('circle')
+nep.penup()
+nep.setposition(0,-300)
+nep.pendown()
+nep.circle(300)
+
+for i in range (100):
+    mer.circle(30)
+    ven.circle(60)
+    ea.circle(100)
+    mar.circle(130)
+    jup.circle(160)
+    sat.circle(200)
+    ur.circle(260)
+    nep.circle(300)
 
 
-    mercure = planet("Mercure",3.302 * math.pow(10,23),57910000000,0,0.3)
-    venus = planet("Venus",4.8685 * math.pow(10,24),108200000000,0,0.4)
-
-    terre = planet("Terre",5.973 * math.pow(10,24),149600000000,0,0.5)
-# As for the Moon, input Earth-Moon distance
-    lune = planet("Lune",7.347 * math.pow(10,22),384400000,0,0.2)
-
-    mars = planet("Mars",6.4185 * math.pow(10,23),227900000000,0,0.45)
-    jupiter = planet("Jupiter",1.8986 * math.pow(10,27),778500000000,0,.8)
-    saturne = planet("Saturne",5.6846 * math.pow(10,26),1433000000000,0,0.7)
-    uranus = planet("Uranus",8.6832 * math.pow(10,25),2877000000000,0,0.6)
-    neptune = planet("Neptune",1.0243 * math.pow(10,26),4503000000000,0,0.6)
-    
-    return "Done!"
-
-# Simulation data
-    years = timeHoursSeconds(0,0,3655,0)
-    seconds = years.fromDaysToS()
-    print("Years: ",years.y)
-    print("Days: ",years.d)
-    print("Seconds: ",seconds)
-    t = 0
-    dt = timeHoursSeconds(10000,0,0,0)
 
 
-# Planets
-    merc = mercure.picture(1,50)
-    ven = venus.picture(3,100)
-    ea = terre.picture(2,150)
-    mar = mars.picture(3,200)
-    jup = jupiter.picture(5,250)
-    sat = saturne.picture(6,300)
-    ur = uranus.picture(3,350)
-    nep = neptune.picture(2,400)
-    
-    planetsf = [merc,ven,ea,mar,jup,sat,ur,nep]
-    planets = [mercure,venus,terre,mars,jupiter,saturne,uranus,neptune]
-# The Moon
-    v = vector(0.9,0)
-    mo = lune.picture(0.9+150)
-
-    for k in planets:
-        revp = k.periodAroundSun()
-        print("Planet name: ",k.name)
-        print(k.name," mass: ",k.mass," kg")
-        print(k.name," distance from the sun: ",k.RS/1000," Km")
-        print(k.name," angular velocity: ",k.angularVelocity()," rad/s")
-        print(k.name," period around the sun: ",revp.fromStoYears()," terrestrial year/s")
-        print("\n")
-    
-
-# Our program
-    while t < seconds:
-       rate(50)
-       for plan in range(len(planets)):    
-            planetsf[plan].pos = rotate(planetsf[plan].pos,angle=planets[plan].varAngularPosition(t,dt.s),axis=(0,0,1))
-       v = rotate(v,angle=lune.varAngularPosition(t,dt.s,m2=2),axis=(0,0,1))
-       mo.pos = ea.pos + v
-       t += dt.s
-
-if __name__ == '__main__':
-    msg = main()
-    print (msg)
-    mainloop()
 
